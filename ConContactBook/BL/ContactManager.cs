@@ -18,13 +18,12 @@ namespace ConContactBook.BL
 
         public static int update(string name, string phonenumber,string newname)
         {
-            return provider.update(new Contact(name, phonenumber), newname);
+            return provider.update(new Contact(name, phonenumber), newname,DateTime.Now.ToString());
         }
 
         public static int create(string name,string phonenumber)
         {
-            Contact contact = new Contact(name, phonenumber);
-            return provider.save(contact);
+            return provider.save(new Contact(name, phonenumber, DateTime.Now.ToString()));
         }
 
         public static int delete(string name, string phonenumber)

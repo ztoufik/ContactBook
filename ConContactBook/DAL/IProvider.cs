@@ -12,6 +12,6 @@ namespace ConContactBook.DAL
          int save(Contact contact);
          List<Contact> retrieve(string name);
          int delete(string name,string phonenumber);
-         int update(Contact oldcontact, string newname);
+         int update(Contact oldcontact, string newname,string newdatetime);
     }
 }

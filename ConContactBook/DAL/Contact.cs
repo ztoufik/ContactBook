@@ -6,16 +6,18 @@ namespace ConContactBook.DAL
 {
     public class Contact
     {
-        public int id { get; set; }
         public string name { get; set; }
         public string phonenumber { get; set; }
-        
+        public string datetime { get; set; }
+
+
         public Contact() { }
 
-        public Contact(string name,string phonenumber)
+        public Contact(string name=null,string phonenumber=null,string datetime=null)
         {
             this.name = name;
             this.phonenumber = phonenumber;
+            this.datetime = datetime;
         }
     }
 }

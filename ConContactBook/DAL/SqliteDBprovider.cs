@@ -77,8 +77,8 @@ namespace ConContactBook.DAL
                 if(cnn!=null)
                 {
                     cnn.Open();
-                    string sqlstatement = string.Format("INSERT INTO contact (name,phonenumber) VALUES ('{0}','{1}');",
-                                                        contact.name, contact.phonenumber);
+                    string sqlstatement = string.Format("INSERT INTO contact (name,phonenumber,datetime) VALUES ('{0}','{1}','{2}');",
+                                                        contact.name, contact.phonenumber,contact.datetime);
                     var sqlcommand = new SQLiteCommand(sqlstatement,cnn);
                     output=sqlcommand.ExecuteNonQuery();
                 }
@@ -92,7 +92,7 @@ namespace ConContactBook.DAL
             
         }
 
-        public int update(Contact oldcontact, string newname)
+        public int update(Contact oldcontact, string newname,string newdatetime)
         {
             int output;
             using (SQLiteConnection cnn = new SQLiteConnection(_connecitonstring))
@@ -100,8 +100,8 @@ namespace ConContactBook.DAL
                 if (cnn != null)
                 {
                     cnn.Open();
-                    string sqlstatment = string.Format("update contact set name='{0}' where name='{1}' and phonenumber='{2}'",
-                                         newname,oldcontact.name,oldcontact.phonenumber
+                    string sqlstatment = string.Format("update contact set name='{0}' ,datetime='{3}' where name='{1}' and phonenumber='{2}'",
+                                         newname,oldcontact.name,oldcontact.phonenumber,newdatetime
                                             );
                     var sqlcommand = new SQLiteCommand(sqlstatment, cnn);
                     output=sqlcommand.ExecuteNonQuery();

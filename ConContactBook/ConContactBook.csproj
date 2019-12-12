@@ -20,4 +20,8 @@
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\libcontactmanagement\libcontactmanagement.csproj" />
+  </ItemGroup>
+
 </Project>

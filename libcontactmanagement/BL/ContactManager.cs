@@ -1,9 +1,9 @@
 ﻿using System;
-using ConContactBook.DAL;
+using libcontactmanagement.DAL;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConContactBook.BL
+namespace libcontactmanagement.BL
 {
     public static class ContactManager
     {

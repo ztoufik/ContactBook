@@ -3,8 +3,8 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using System.Configuration;
-using ConContactBook.DAL;
-using ConContactBook.BL;
+using libcontactmanagement.DAL;
+using libcontactmanagement.BL;
 
 namespace ConContactBook
 {

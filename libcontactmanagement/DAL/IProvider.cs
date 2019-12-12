@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ConContactBook.DAL;
-using ConContactBook.BL;
+using libcontactmanagement.DAL;
+using libcontactmanagement.BL;
 
 
-namespace ConContactBook.DAL
+namespace libcontactmanagement.DAL
 {
     public interface IProvider
     {

@@ -4,9 +4,9 @@ using System.Text;
 using System.Data.SQLite;
 using System.Data;
 
-namespace ConContactBook.DAL
+namespace libcontactmanagement.DAL
 {
-    class SqliteDBprovider : IProvider
+    public class SqliteDBprovider : IProvider
     {
         string _connecitonstring;
 

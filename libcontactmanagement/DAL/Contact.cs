@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConContactBook.DAL
+namespace libcontactmanagement.DAL
 {
     public class Contact
     {

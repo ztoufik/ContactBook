@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
+using System.Collections.Generic;
 using System.Configuration;
 using ConContactBook.DAL;
 using ConContactBook.BL;
@@ -43,15 +46,47 @@ namespace ConContactBook
 
         private static void listAllContacts()
         {
-            Console.Write("\n enter the search name : ");
-            string name = Console.ReadLine();
-            int count = 0;
-            foreach(var contact in ContactManager.getContact(name))
+            Console.Write("\n n:search by name \t p:search by phonenumber \t e:search by email\n ");
+            List<Contact> contacts=null;
+            char command = Console.ReadKey().KeyChar;
+            switch(command)
             {
-                Console.WriteLine(string.Format("\n {0}\t{1}", contact.name, contact.phonenumber));
-                count++;
+                case 'n':
+                    {
+                        Console.Write("\n enter the name: ");
+                        string name = Console.ReadLine();
+                        contacts = ContactManager.getContact(name,ContactManager.Field.name);
+                        break;
+                    }
+                case 'p':
+                    {
+                        Console.Write("\n enter the phonenumber: ");
+                        string phonenumber = Console.ReadLine();
+                        contacts = ContactManager.getContact(phonenumber, ContactManager.Field.phonenumber);
+                        break; ;
+                    }
+                case 'e':
+                    {
+                        Console.Write("\n enter the email: ");
+                        string email = Console.ReadLine();
+                        contacts = ContactManager.getContact(email, ContactManager.Field.email);
+                        break;
+                    }
+                default: Console.WriteLine("invalid option"); return;
             }
-            Console.WriteLine(string.Format("\n {0} total contact(s)",count));
+            Console.Write("\n display alphabetcally (a)or by date(d): ");
+            char sort = Console.ReadKey().KeyChar;
+            switch(sort)
+            {
+                case 'd':contacts=contacts.OrderBy(o=>o.datetime).ToList(); break;
+                case 'a': contacts = contacts.OrderBy(o => o.name).ToList(); break;
+                default: Console.WriteLine("invalid character");break;
+            }
+            foreach(var contact in contacts)
+            {
+                Console.WriteLine(string.Format("\n {0}\t{1}\t{2}\t{3}",contact.name,contact.phonenumber,contact.datetime,contact.email));
+            }
+            Console.WriteLine(string.Format(" {0} total(s)",contacts.Count));
         }
 
         private static void deletecontact()
@@ -81,8 +116,9 @@ namespace ConContactBook
         {
             string name, phonenumber;
             InputnameAndphnumb(out name, out phonenumber);
-
-            int result=ContactManager.create(name, phonenumber);
+            Console.Write("\n enter the email ");
+            string email = Console.ReadLine();
+            int result=ContactManager.create(name, phonenumber,email);
             Console.WriteLine(string.Format("\n {0} contacts saved",result));
         }
     }

@@ -15,7 +15,7 @@ namespace ConContactBook.DAL
             _connecitonstring = connectionstring;
         }
 
-        public int delete(string name,string phonenumber)
+        public int delete(string name, string phonenumber)
         {
             using (SQLiteConnection cnn = new SQLiteConnection(_connecitonstring))
             {
@@ -23,9 +23,9 @@ namespace ConContactBook.DAL
                 if (cnn != null)
                 {
                     cnn.Open();
-                    string sqlstatment = name.Equals("all")?"delete from contact":string.Format("delete from contact where name='{0}' and phonenumber='{1}'", name, phonenumber);
-                    var sqlcommand = new SQLiteCommand(sqlstatment,cnn);
-                    output=sqlcommand.ExecuteNonQuery();
+                    string sqlstatment = name.Equals("all") ? "delete from contact" : string.Format("delete from contact where name='{0}' and phonenumber='{1}'", name, phonenumber);
+                    var sqlcommand = new SQLiteCommand(sqlstatment, cnn);
+                    output = sqlcommand.ExecuteNonQuery();
                 }
                 else
                 {
@@ -36,7 +36,7 @@ namespace ConContactBook.DAL
             }
         }
 
-        public List<Contact> retrieve(string name)
+        public List<Contact> retrieve(string value, string field)
         {
             List<Contact> contacts = new List<Contact>();
             using (SQLiteConnection cnn = new SQLiteConnection(_connecitonstring))
@@ -44,22 +44,23 @@ namespace ConContactBook.DAL
                 if (cnn != null)
                 {
                     cnn.Open();
-                    string sqlstatement = name.Equals("all") ? "select name,phonenumber from contact" :
-                        string.Format("select name , phonenumber from contact where name='{0}';", name);
-                    var sqlcommand = new SQLiteCommand(sqlstatement,cnn);
-                using (SQLiteDataReader rdr = sqlcommand.ExecuteReader())
-                {
-
-                    
-                    while(rdr.Read())
+                    string sqlstatement = string.Format("select name , phonenumber,datetime,email from contact where {1}='{0}';", value, field);
+                    var sqlcommand = new SQLiteCommand(sqlstatement, cnn);
+                    using (SQLiteDataReader rdr = sqlcommand.ExecuteReader())
                     {
+
+
+                        while (rdr.Read())
+                        {
                             Contact contact = new Contact();
                             contact.name = rdr["name"].ToString();
                             contact.phonenumber = rdr["phonenumber"].ToString();
+                            contact.datetime = rdr["datetime"].ToString();
+                            contact.email = rdr["email"].ToString();
                             contacts.Add(contact);
+                        }
                     }
-                }
-                   
+
                 }
                 else
                 {
@@ -72,15 +73,15 @@ namespace ConContactBook.DAL
         public int save(Contact contact)
         {
             int output;
-            using(SQLiteConnection cnn =new SQLiteConnection(_connecitonstring))
+            using (SQLiteConnection cnn = new SQLiteConnection(_connecitonstring))
             {
-                if(cnn!=null)
+                if (cnn != null)
                 {
                     cnn.Open();
-                    string sqlstatement = string.Format("INSERT INTO contact (name,phonenumber,datetime) VALUES ('{0}','{1}','{2}');",
-                                                        contact.name, contact.phonenumber,contact.datetime);
-                    var sqlcommand = new SQLiteCommand(sqlstatement,cnn);
-                    output=sqlcommand.ExecuteNonQuery();
+                    string sqlstatement = string.Format("INSERT INTO contact (name,phonenumber,datetime,email) VALUES ('{0}','{1}','{2}','{3}');",
+                                                        contact.name, contact.phonenumber, contact.datetime, contact.email);
+                    var sqlcommand = new SQLiteCommand(sqlstatement, cnn);
+                    output = sqlcommand.ExecuteNonQuery();
                 }
                 else
                 {
@@ -89,7 +90,20 @@ namespace ConContactBook.DAL
                 }
             }
             return output;
-            
+
+        }
+
+        public List<Contact> nameretrieve(string name)
+        {
+            return retrieve(name, "name");
+        }
+        public List<Contact> phoneretrieve(string phonenumber)
+        {
+            return retrieve(phonenumber, "phonenumber");
+        }
+        public List<Contact> emailretrieve(string email)
+        {
+            return retrieve(email, "email");
         }
 
         public int update(Contact oldcontact, string newname,string newdatetime)
